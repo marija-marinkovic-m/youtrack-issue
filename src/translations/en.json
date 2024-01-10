@@ -1,0 +1,18 @@
+{
+  "app": {
+    "name": "YouTrack Issue App",
+    "short_description": "Create YouTrack issues from Zendesk tickets",
+    "long_description": "Create YouTrack issues from Zendesk tickets.",
+    "installation_instructions": "Configure the following app settings, then click Install:...",
+    "title": "YouTrack Issue App",
+    "parameters": {
+      "subdomain" : { "label": "Subdomain" },
+      "apiToken" : { "label": "Token" },
+      "youtrackUrl" : { "label": "YouTrack URL", "helpText": "e.g. mycompany.youtrack.cloud (without https)" },
+      "youtrackProject": { "label": "YouTrack Project ID" }
+    }
+  },
+  "default": {
+    "organizations": "organizations"
+  }
+}
