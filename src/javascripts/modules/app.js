@@ -2,18 +2,15 @@ import React from 'react'
 import { render } from 'react-dom'
 import { ThemeProvider, DEFAULT_THEME } from '@zendeskgarden/react-theming'
 import I18n from '../lib/i18n'
-import { resizeContainer, escapeSpecialChars as escape } from '../lib/helpers'
+import { resizeContainer } from '../lib/helpers'
 
 import TicketForm from './ticket-form'
 import { ClientContextProvider } from '../lib/client-context'
 
 const MAX_HEIGHT = 1000
-const API_ENDPOINTS = {
-  organizations: '/api/v2/organizations.json'
-}
 
 class App {
-  constructor(client, _appData) {
+  constructor (client, _appData) {
     this._client = client
 
     // this.initializePromise is only used in testing
@@ -21,7 +18,7 @@ class App {
     this.initializePromise = this.init()
   }
 
-  async init() {
+  async init () {
     const currentUser = (await this._client.get('currentUser')).currentUser
 
     const ticket = (await this._client.get('ticket')).ticket
@@ -45,7 +42,7 @@ class App {
    * Handle error
    * @param {Object} error error object
    */
-  _handleError(error) {
+  _handleError (error) {
     console.log('An error is handled here: ', error.message)
   }
 }

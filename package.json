@@ -15,7 +15,7 @@
     "watch": "webpack --watch --mode development",
     "build:dev": "webpack --mode development",
     "build": "webpack --mode production",
-    "lint": "standard",
+    "lint": "standard --fix",
     "start": "zcli apps:server dist",
     "package": "npm run build && zcli apps:package dist"
   },
