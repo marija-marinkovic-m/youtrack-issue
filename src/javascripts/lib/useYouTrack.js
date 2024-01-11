@@ -1,14 +1,15 @@
-import { useClient } from './client-context'
+import { useAppData } from './app-data-context'
 
 const API_ENDPOINTS = {
-  issues: 'api/issues'
+  issues: 'api/issues',
+  projects: 'api/admin/projects'
 }
 
-const useYouTrack = ({ apiUrl }) => {
-  const client = useClient()
+const useYouTrack = ({ apiUrl, id, subdomain }) => {
+  const {client} = useAppData()
 
   const getOptions = ({ method, path }) => ({
-    url: `https://${apiUrl}/${API_ENDPOINTS.issues}${path || ''}`,
+    url: `https://${apiUrl}/${path || ''}`,
     type: method || 'GET',
     headers: {
       Authorization: 'Bearer {{setting.apiToken}}',
@@ -22,12 +23,32 @@ const useYouTrack = ({ apiUrl }) => {
   })
 
   return {
-    fetch ({ id }) {
-      return client.request(getOptions({ method: 'GET', path: `/${id}?fields=id,summary,customFields(id,name,value(avatarUrl,buildLink,color(id),fullName,id,isResolved,localizedName,login,minutes,name,presentation,text))` }))
+    fetchRelated ({ id, projectName }) {
+      const zendeskUrl = `${subdomain}.zendesk.com/agent/tickets/${id}`;
+      const query = encodeURIComponent(`project: {${projectName}} {${zendeskUrl}}`)
+
+      const path = `${API_ENDPOINTS.issues}?fields=summary,created,idReadable,updated,updater(fullName),resolved&query=${query}`
+
+      console.log('path', path)
+
+      return client.request(getOptions({ method: 'GET', path }))
+    },
+    fetchProject ({projectId}) {
+        return client.request(getOptions({ method: 'GET', path: `${API_ENDPOINTS.projects}/${projectId}?fields=id,name,description,shortName` }))
     },
     create ({ summary, description, projectId }) {
       const options = {
-        ...getOptions({ method: 'POST', path: '?fields=idReadable' }), data: JSON.stringify({ summary, description, project: { id: projectId } })
+        ...getOptions({ method: 'POST', path: `${API_ENDPOINTS.issues}?fields=idReadable` }), data: JSON.stringify({
+            summary,
+            description,
+            project: { id: projectId },
+            customFields: [{
+                value: id,
+                name: 'Zendesk Ticket IDs',
+                id: '204-1',
+                '$type': 'SimpleIssueCustomField'
+            }]
+        })
       }
 
       console.log('options', options)

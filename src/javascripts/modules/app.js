@@ -3,9 +3,10 @@ import { render } from 'react-dom'
 import { ThemeProvider, DEFAULT_THEME } from '@zendeskgarden/react-theming'
 import I18n from '../lib/i18n'
 import { resizeContainer } from '../lib/helpers'
-
-import TicketForm from './ticket-form'
-import { ClientContextProvider } from '../lib/client-context'
+import { AppDataContextProvider } from '../lib/app-data-context'
+import IssueForm from './issue-form'
+import RelatedIssues from './related-issues'
+import ProjectInfo from './project-info'
 
 const MAX_HEIGHT = 1000
 
@@ -20,7 +21,7 @@ class App {
 
   async init () {
     const currentUser = (await this._client.get('currentUser')).currentUser
-
+    const settings = (await this._client.metadata()).settings
     const ticket = (await this._client.get('ticket')).ticket
 
     I18n.loadTranslations(currentUser.locale)
@@ -29,9 +30,15 @@ class App {
 
     render(
       <ThemeProvider theme={{ ...DEFAULT_THEME }}>
-        <ClientContextProvider client={this._client}>
-          <TicketForm data={ticket} />
-        </ClientContextProvider>
+        <AppDataContextProvider
+          settings={settings}
+          ticket={ticket}
+          client={this._client}
+        >
+            <RelatedIssues />
+            <IssueForm />
+            <ProjectInfo />
+        </AppDataContextProvider>
       </ThemeProvider>,
       appContainer
     )
