@@ -12,7 +12,16 @@
       "youtrackProject": { "label": "YouTrack Project ID" }
     }
   },
+  "common": {
+    "subject": "Subject",
+    "description": "Description",
+    "submit": "Submit",
+    "no_description": "No description",
+    "related_issue": "Related"
+  },
   "default": {
-    "organizations": "organizations"
+    "organizations": "organizations",
+    "error_issue_create": "Error creating issue",
+    "error_500": "Something went wrong. Please try again later."
   }
 }
