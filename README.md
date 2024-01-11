@@ -69,5 +69,14 @@ External dependencies are defined in [webpack.config.js](https://github.com/zend
 - https://webpack.github.io
 - https://developer.zendesk.com/documentation/apps/build-an-app/using-react-in-a-support-app/
 
+
+## I18n
+
+```javascript
+i18n.t('hello'); // returns "Hello!"
+i18n.t('goodbye', { name: 'Yak' }); // returns "Bye Yak!"
+i18n.t('formal.farewell'); // returns "Farewell, friend."
+```
+
 ## Copyright and license
 http://www.apache.org/licenses/LICENSE-2.0

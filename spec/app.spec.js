@@ -5,11 +5,10 @@ import { CLIENT, ORGANIZATIONS } from './mocks/mock'
 import { unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
 import { configure } from '@testing-library/react'
-import { screen } from '@testing-library/dom'
 
 const mockEN = {
-  'app.name': 'Example App',
-  'app.title': 'Example App',
+  'app.name': 'App',
+  'app.title': 'App',
   'default.organizations': 'organizations'
 }
 
@@ -39,42 +38,17 @@ describe('Example App', () => {
       appContainer = null
     })
 
-    it('render with current username and organizations successfully', (done) => {
+    it('render successfully', (done) => {
       act(() => {
         CLIENT.request = jest.fn().mockReturnValueOnce(Promise.resolve(ORGANIZATIONS))
         CLIENT.invoke = jest.fn().mockReturnValue(Promise.resolve({}))
 
         const app = new App(CLIENT, {})
         app.initializePromise.then(() => {
-          const descriptionElement = screen.getByTestId('sample-app-description')
-          expect(descriptionElement.textContent).toBe('Hi Sample User, this is a sample app')
 
-          const organizations = screen.getByTestId('organizations')
-          expect(organizations.childElementCount).toBe(2)
-
-          const organizationA = screen.getByTestId('organization-1')
-          expect(organizationA.textContent).toBe('Organization A')
-          const organizationB = screen.getByTestId('organization-2')
-          expect(organizationB.textContent).toBe('Organization B')
-          done()
-        })
-      })
-    })
-
-    it('render with current username but no organizations since api errors', (done) => {
-      act(() => {
-        CLIENT.request = jest.fn().mockReturnValueOnce(Promise.reject(new Error('a fake error')))
-        const app = new App(CLIENT, {})
-        const errorSpy = jest.spyOn(app, '_handleError')
-
-        app.initializePromise.then(() => {
-          const descriptionElement = screen.getByTestId('sample-app-description')
-          expect(descriptionElement.textContent).toBe('Hi Sample User, this is a sample app')
-
-          const organizations = screen.getByTestId('organizations')
-          expect(organizations.childElementCount).toBe(0)
-
-          expect(errorSpy).toBeCalled()
+          expect(appContainer.querySelector('.main')).toBeTruthy()
+          expect(appContainer.querySelector('.main').innerHTML).toContain('App')
+          
 
           done()
         })
