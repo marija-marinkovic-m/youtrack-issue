@@ -35,9 +35,9 @@ class App {
           ticket={ticket}
           client={this._client}
         >
-            <RelatedIssues />
-            <IssueForm />
-            <ProjectInfo />
+          <RelatedIssues />
+          <IssueForm />
+          <ProjectInfo />
         </AppDataContextProvider>
       </ThemeProvider>,
       appContainer

@@ -6,7 +6,7 @@ const API_ENDPOINTS = {
 }
 
 const useYouTrack = ({ apiUrl, id, subdomain }) => {
-  const {client} = useAppData()
+  const { client } = useAppData()
 
   const getOptions = ({ method, path }) => ({
     url: `https://${apiUrl}/${path || ''}`,
@@ -24,7 +24,7 @@ const useYouTrack = ({ apiUrl, id, subdomain }) => {
 
   return {
     fetchRelated ({ id, projectName }) {
-      const zendeskUrl = `${subdomain}.zendesk.com/agent/tickets/${id}`;
+      const zendeskUrl = `${subdomain}.zendesk.com/agent/tickets/${id}`
       const query = encodeURIComponent(`project: {${projectName}} {${zendeskUrl}}`)
 
       const path = `${API_ENDPOINTS.issues}?fields=summary,created,idReadable,updated,updater(fullName),resolved&query=${query}`
@@ -33,21 +33,22 @@ const useYouTrack = ({ apiUrl, id, subdomain }) => {
 
       return client.request(getOptions({ method: 'GET', path }))
     },
-    fetchProject ({projectId}) {
-        return client.request(getOptions({ method: 'GET', path: `${API_ENDPOINTS.projects}/${projectId}?fields=id,name,description,shortName` }))
+    fetchProject ({ projectId }) {
+      return client.request(getOptions({ method: 'GET', path: `${API_ENDPOINTS.projects}/${projectId}?fields=id,name,description,shortName` }))
     },
     create ({ summary, description, projectId }) {
       const options = {
-        ...getOptions({ method: 'POST', path: `${API_ENDPOINTS.issues}?fields=idReadable` }), data: JSON.stringify({
-            summary,
-            description,
-            project: { id: projectId },
-            customFields: [{
-                value: id,
-                name: 'Zendesk Ticket IDs',
-                id: '204-1',
-                '$type': 'SimpleIssueCustomField'
-            }]
+        ...getOptions({ method: 'POST', path: `${API_ENDPOINTS.issues}?fields=summary,created,idReadable,updated,updater(fullName),resolved` }),
+        data: JSON.stringify({
+          summary,
+          description,
+          project: { id: projectId },
+          customFields: [{
+            value: id,
+            name: 'Zendesk Ticket IDs',
+            id: '204-1',
+            $type: 'SimpleIssueCustomField'
+          }]
         })
       }
 
