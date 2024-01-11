@@ -10,7 +10,7 @@ const prepareDescription = (description, url) => {
 
   const truncatedDescription = desc.length > DESC_CHAR_LIMIT ? `${desc.substring(0, DESC_CHAR_LIMIT)}...` : desc
 
-  return `**Detail**\n${truncatedDescription}\n\n**Zendesk URL**\n${url}`
+  return `**Extract of Information**\n${truncatedDescription}\n\n---\n\n**Zendesk URL**\n${url}`
 }
 
 const useIssueForm = () => {

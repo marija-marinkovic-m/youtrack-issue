@@ -5,6 +5,7 @@ import IssueCard from '../components/issue-card'
 import useRelatedIssues from '../lib/useRelatedIssues'
 import useIssueForm from '../lib/useIssueForm'
 import IssueFields from '../components/issue-fields'
+import I18n from '../lib/i18n'
 
 const IssueForm = () => {
   const { issues } = useRelatedIssues()
@@ -28,8 +29,8 @@ const IssueForm = () => {
   if (error) {
     return (
       <Alert type='error'>
-        <Title>{error.error ?? 'Issue could not be created'}</Title>
-        {error.error_description ?? 'Something went wrong'}
+        <Title>{I18n.t('default.error_issue_create')}</Title>
+        {I18n.t('default.error_500')}
       </Alert>
     )
   }

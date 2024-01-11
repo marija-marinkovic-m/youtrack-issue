@@ -4,11 +4,12 @@ import styled from 'styled-components'
 import { IconButton } from '@zendeskgarden/react-buttons'
 import { Tooltip } from '@zendeskgarden/react-tooltips'
 import { LG } from '@zendeskgarden/react-typography'
-import { ReactComponent as ReloadIcon } from '@zendeskgarden/svg-icons/src/16/reload-stroke.svg'
+import { ReactComponent as ReloadIcon } from '@zendeskgarden/svg-icons/src/12/reload-stroke.svg'
 
 import IssueCard from '../components/issue-card'
 import { StyledSpacer } from '../components/common'
 import useRelatedIssues from '../lib/useRelatedIssues'
+import I18n from '../lib/i18n'
 
 const StyledTitle = styled(LG)`
   display: flex;
@@ -25,7 +26,7 @@ const RelatedIssues = () => {
   return (
     <>
       <StyledTitle>
-        Related Issue(s)
+        {I18n.t('common.related_issue')}
         <Tooltip content='Reload' placement='top'>
           <IconButton onClick={handdleFetchRelated} size='small' aria-label='Reload'>
             <ReloadIcon />

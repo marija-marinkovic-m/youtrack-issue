@@ -5,7 +5,6 @@ import useProjectInfo from './useProjectInfo'
 
 const useRelatedIssues = () => {
   const [issues, setIssues] = React.useState([])
-  const [isCalled, setIsCalled] = React.useState(false)
 
   const { ticket, settings } = useAppData()
   const { project } = useProjectInfo()
@@ -17,26 +16,19 @@ const useRelatedIssues = () => {
   })
 
   const handdleFetchRelated = () => {
-    console.log('handleFetch')
     fetchRelated({
       id: ticket?.id,
       projectName: project?.name
-    }).then((response) => {
-      console.log('response', response)
-      setIssues(response.responseJSON)
-    }).catch((error) => {
-      console.log('error', error)
-      setIssues([])
     })
+      .then((response) => setIssues(response.responseJSON))
+      .catch(() => setIssues([]))
   }
 
   React.useEffect(() => {
-    if (!project?.name || isCalled) return
+    if (!project?.name) return
 
-    setIsCalled(true)
-    console.log('fetch related useEffect')
     handdleFetchRelated()
-  }, [project?.name, isCalled])
+  }, [project?.name])
 
   return {
     issues,

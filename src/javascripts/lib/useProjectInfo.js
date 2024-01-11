@@ -4,10 +4,7 @@ import useYouTrack from './useYouTrack'
 
 const useProjectInfo = () => {
   const [project, setProject] = React.useState(null)
-  const [isCalled, setIsCalled] = React.useState(false)
-
   const { ticket, settings } = useAppData()
-
   const { fetchProject } = useYouTrack({
     apiUrl: settings?.youtrackUrl,
     id: ticket?.id,
@@ -15,22 +12,14 @@ const useProjectInfo = () => {
   })
 
   React.useEffect(() => {
-    if (isCalled) return
-
-    setIsCalled(true)
-    console.log('fetch project useEffect')
     fetchProject({
       projectId: settings?.youtrackProject
-    }).then((response) => {
-      console.log('response', response)
-      setProject({
+    })
+      .then((response) => setProject({
         ...response.responseJSON,
         url: `https://${settings?.youtrackUrl}/projects/${response.responseJSON.shortName}`
-      })
-    }).catch((error) => {
-      console.log('error', error)
-      setProject(null)
-    })
+      }))
+      .catch(() => setProject(null))
   }, [])
 
   return {

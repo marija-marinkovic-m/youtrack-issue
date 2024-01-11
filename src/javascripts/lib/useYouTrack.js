@@ -24,12 +24,8 @@ const useYouTrack = ({ apiUrl, id, subdomain }) => {
 
   return {
     fetchRelated ({ id, projectName }) {
-      const zendeskUrl = `${subdomain}.zendesk.com/agent/tickets/${id}`
-      const query = encodeURIComponent(`project: {${projectName}} {${zendeskUrl}}`)
-
+      const query = encodeURIComponent(`project: {${projectName}} {${subdomain}.zendesk.com/agent/tickets/${id}}`)
       const path = `${API_ENDPOINTS.issues}?fields=summary,created,idReadable,updated,updater(fullName),resolved&query=${query}`
-
-      console.log('path', path)
 
       return client.request(getOptions({ method: 'GET', path }))
     },
@@ -52,7 +48,6 @@ const useYouTrack = ({ apiUrl, id, subdomain }) => {
         })
       }
 
-      console.log('options', options)
       return client.request(options)
     }
   }

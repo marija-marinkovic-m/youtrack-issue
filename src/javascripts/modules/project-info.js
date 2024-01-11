@@ -2,6 +2,7 @@ import React from 'react'
 import { Alert, Title } from '@zendeskgarden/react-notifications'
 import { MD as Medium } from '@zendeskgarden/react-typography'
 
+import I18n from '../lib/i18n'
 import useProjectInfo from '../lib/useProjectInfo'
 
 const ProjectInfo = () => {
@@ -13,9 +14,9 @@ const ProjectInfo = () => {
 
   return (
     <Alert type='info'>
-      {project.url && <a href={project.url} target='_blank' rel='noreferrer'><Title>Project: {project.name}</Title></a>}
+      {project.url && <a href={project.url} target='_blank' rel='noreferrer'><Title>{project.name}</Title></a>}
 
-      <Medium>{project.description ?? 'No description'}</Medium>
+      <Medium>{project.description ?? I18n.t('common.no_description')}</Medium>
     </Alert>
   )
 }
