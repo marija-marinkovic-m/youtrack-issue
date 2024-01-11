@@ -24,9 +24,9 @@ class App {
     const settings = (await this._client.metadata()).settings
     const ticket = (await this._client.get('ticket')).ticket
 
-    I18n.loadTranslations(currentUser.locale)
-
     const appContainer = document.querySelector('.main')
+
+    I18n.loadTranslations(currentUser.locale)
 
     render(
       <ThemeProvider theme={{ ...DEFAULT_THEME }}>
